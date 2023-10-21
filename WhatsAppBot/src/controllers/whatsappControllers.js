@@ -3,7 +3,7 @@ dotenv.config();
 
 const verifyToken = (req, res) =>{
     try {
-        var accessToken = process.env.WHATSAPP_API_TOKEN;
+        var accessToken = process.env.WHATSAPP_WEBHOOK_KEY;
         var token = req.query["hub.verify_token"];
         var challenge = req.query["hub.challenge"];
 
