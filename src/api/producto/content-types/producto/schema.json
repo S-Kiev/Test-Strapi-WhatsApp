@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "productos",
+  "info": {
+    "singularName": "producto",
+    "pluralName": "productos",
+    "displayName": "Producto",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "codigo": {
+      "type": "string",
+      "unique": true
+    },
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "precioBase": {
+      "type": "decimal",
+      "required": true
+    },
+    "precioVenta": {
+      "type": "decimal"
+    },
+    "url": {
+      "type": "string"
+    },
+    "proveedor": {
+      "type": "string"
+    }
+  }
+}

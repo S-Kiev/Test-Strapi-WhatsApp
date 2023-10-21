@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "alumnos",
+  "info": {
+    "singularName": "alumno",
+    "pluralName": "alumnos",
+    "displayName": "Alumno",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string"
+    },
+    "Activo": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

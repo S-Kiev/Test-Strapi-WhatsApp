@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pruebas",
+  "info": {
+    "singularName": "prueba",
+    "pluralName": "pruebas",
+    "displayName": "Maestro",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string"
+    },
+    "imagen": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "alumnos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::alumno.alumno"
+    }
+  }
+}

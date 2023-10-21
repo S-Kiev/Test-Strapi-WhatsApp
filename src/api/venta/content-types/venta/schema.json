@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ventas",
+  "info": {
+    "singularName": "venta",
+    "pluralName": "ventas",
+    "displayName": "venta"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cliente": {
+      "type": "string"
+    },
+    "montoTotal": {
+      "type": "decimal"
+    },
+    "fecha": {
+      "type": "datetime"
+    },
+    "productos": {
+      "type": "json"
+    }
+  }
+}
