@@ -5,7 +5,7 @@
   "description": "A Strapi application",
   "scripts": {
     "develop": "concurrently \"strapi develop\" \"npm run whatsapp\"",
-    "start": "strapi start",
+    "start": "concurrently \"strapi start\" \"npm run whatsapp\"",
     "build": "strapi build",
     "strapi": "strapi",
     "whatsapp": "node WhatsAppBot/src/index.js"
