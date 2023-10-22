@@ -2,143 +2,92 @@ let ultimateCode = '';
 let validate = 0;
 let user;
 
-
-function generateCode() {
-    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let code = '';
- 
-    for (let i = 0; i < 3; i++) {
-      code += Math.floor(Math.random() * 10);
-    }
- 
-    for (let i = 0; i < 3; i++) {
-      const index = Math.floor(Math.random() * letters.length);
-      code += letters.charAt(index);
-    }
-
-    ultimateCode = code;
- 
-    return code;
-  }
+const { generateCode } = require('./generateCode');
 
 module.exports = (plugin) => {
-  
-    plugin.controllers.user.findByUsername = async (ctx) =>{
 
-  //       if (!ctx.body.username || ctx.body.code != ultimateCode || ctx.body.validate < new Date().getTime()) {
-    //        return ctx.response.status = 403;
-      //  }   
-      
-      if (!ctx.request.params || !ctx.request.params.username) {
-        return ctx.response.status = 400;
-      }
+  plugin.controllers.user.sendCode = async (ctx) => {
 
-      const username = ctx.request.params.username;
-        
-        ultimateCode  = '';
-        validate = 0;
+    //Podria buscar y validar el numero de telefono cuando tenga la tabla infoUsuario
 
-        user = await strapi.query('plugin::users-permissions.user').findOne({
-             where: { username : username }
-        }).then ((res)=>{
-            try {
-              if (res) {
-                ctx.response.status = 200;
-                ctx.response.body = { id: res.id };
-            } else {
-                ctx.response.status = 400;
-                ctx.body = {
-                  message: 'Usuario no encontrado'
-                };
-            }
-            } catch (error){
-              ctx.response.status = 400;
-              ctx.body = error;
-            }
-    })
-  }
+            if ( ctx.request.body.username || ctx.request.body.email || ctx.request.body.number ) {
+                const user = await strapi.query('plugin::users-permissions.user').findOne({
+                    where: {
+                        $or: [
+                        {
+                            username: { $eqi : ctx.request.body.username },
+                        },
+                        {
+                            email: { $eqi : ctx.request.body.email },
+                        },
+                        ],
+                    },
+                }).then((res)=>{
+                    const code = generateCode();
 
-  plugin.controllers.user.updateMyUser = async (ctx) => {
+                    //Aqui si ya tengo el usuario y codigo guardar esos datos en una tabla junto con el manejo del tiempo para validez
+                    //validate = new Date().getTime() + 60 * 60 * 1000;
+    
+                    //Aqui enviar el codigo por Whatsapp
+                    ctx.response.status = 200;
+                    ctx.response.body = {
+                        message: `Operacion ejecutada correctamente`,
+                        code : code,
+                        user: res.password
+                    };
+                }).catch ((error)=>{
+                    console.log(error);
+                    ctx.response.status = 401;
+                    ctx.body = {
+                        message: `Usuario incorrecto`,
+                    };
+                });
+                
+                //Aqui buscar el numero de Usuario en la tabla infoUsuario
 
-    if(!ctx.state.user || !ctx.state.user.id){
+    } else {
         ctx.response.status = 401;
+        ctx.body = {
+        message: `Se requiere un numero, username, o email`
+        };
     }
+}
 
-    await strapi.query('plugin::users-permissions.user').update({
-        where : { id: ctx.state.user.id },
-        data : ctx.request.body
-    }).then((res) =>{
-      ctx.response.status = 200;
-    })
-  }
+plugin.controllers.user.validateCode = async (ctx) => {
 
-  plugin.controllers.user.FindMyUser = async (ctx) => {
-    if (!ctx.request.body.username || ctx.request.body.code !== '123') {
-      ctx.response.status = 401;
-      ctx.body = {
-        message: 'Usuario o código incorrecto'
-      };
+    if ( ctx.request.body.code ) {
+
+        //Con el codigo busco en la tabla (idUser, code, validSince, validUntil) el id del usuario
+        //enviar el id de Usuario y la new Password para que Frontend use el update
+        ctx.response.status = 200;
+        ctx.response.body = {
+            message: `Operacion ejecutada correctamente`
+        };
+
+    } else {
+        ctx.response.status = 401;
+        ctx.body = {
+        message: `Se requiere un código y/o contraseña`
+        };
     }
-  
-    const user = await strapi.query('plugin::users-permissions.user').findOne({
-      where: { username: ctx.request.body.username },
-    }).then((res) => {
-      ctx.response.status = 200;
-      ctx.response.body = res;
-    }).catch((error) => {
-      // Manejar errores aquí
-      console.error(error);
-      ctx.response.status = 500;
-      ctx.body = {
-        message: 'Error interno del servidor'
-      };
-    });
-  };
+}
 
-  plugin.controllers.user.testRoute = (ctx) => {
-    ctx.body = {
-      message: "Hello World!",
-    };
-  };
-
-     function getCode () {
-      ultimateCode = generateCode();
-      validate = new Date().getTime() + 60 * 60 * 1000;
-      return ultimateCode; 
-    }
   
 
     plugin.routes['content-api'].routes.push(
       {
-        method: 'GET',
-        path: '/user/:username',
-        handler: 'user.findByUsername',
+        method: 'POST',
+        path: '/user/sendCode',
+        handler: 'user.sendCode',
         config: {
           prefix: '',
           policies: []
         }
       },
       {
-        method: "GET",
-        path: "/user/test-route",
-        handler: "user.testRoute",
-        config: {
-          prefix: "",
-        },
-      },
-      {
-        method: "PUT",
-        path: "/user/updateMyUser",
-        handler: "user.updateMyUser",
-        config: {
-          prefix: "",
-          policies: []
-        },
-      },
-      {
         method: "POST",
-        path: "/user/FindMyUser",
-        handler: "user.FindMyUser",
+        path: "/user/validateCode",
+        handler: "user.validateCode",
         config: {
           prefix: "",
           policies: []
