@@ -15,6 +15,7 @@
     "@strapi/plugin-users-permissions": "4.14.3",
     "@strapi/provider-upload-cloudinary": "^4.14.3",
     "@strapi/strapi": "4.14.3",
+    "bcrypt": "^5.1.1",
     "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
