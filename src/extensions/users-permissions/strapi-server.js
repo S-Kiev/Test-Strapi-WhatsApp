@@ -73,20 +73,17 @@ plugin.controllers.user.changePasswordByWhatsapp = async (ctx) => {
             where: { id: ctx.request.body.id },
             data: { password },
         }).then((res)=>{
-            ctx.response.status = 200;
-            ctx.response.body = {
-                message: `Operacion ejecutada correctamente`
-            };
-            /*
-            ctx.response.status = 200;
-            const jwt = await strapi.service("plugin::users-permissions.jwt").issue({
-                id: res.id,
+
+            const jwtToken = strapi.plugins['users-permissions'].services.jwt.issue({
+                id: res.id
             });
-            ctx.send({
-                jwt,
+            
+            ctx.response.status = 200;
+            ctx.response.body = ({
+                jwtToken,
                 user: res,
             });
-    */
+
         }).catch ((error)=>{
             console.log(error);
             ctx.response.status = 401;

@@ -815,6 +815,36 @@ export interface ApiVentaVenta extends Schema.CollectionType {
   };
 }
 
+export interface ApiWhatsappWhatsapp extends Schema.CollectionType {
+  collectionName: 'whatsapps';
+  info: {
+    singularName: 'whatsapp';
+    pluralName: 'whatsapps';
+    displayName: 'whatsapp';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    mensaje: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::whatsapp.whatsapp',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::whatsapp.whatsapp',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -835,6 +865,7 @@ declare module '@strapi/types' {
       'api::producto.producto': ApiProductoProducto;
       'api::prueba.prueba': ApiPruebaPrueba;
       'api::venta.venta': ApiVentaVenta;
+      'api::whatsapp.whatsapp': ApiWhatsappWhatsapp;
     }
   }
 }
