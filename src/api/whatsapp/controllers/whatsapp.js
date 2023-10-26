@@ -6,6 +6,8 @@
 
 const { getTextUser } = require('./getTextUser');
 const { createCoreController } = require('@strapi/strapi').factories;
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     async verifyToken (ctx) {
