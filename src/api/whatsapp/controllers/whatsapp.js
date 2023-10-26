@@ -35,6 +35,8 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
             var changes = (entry['changes'])[0];
             var value = changes['value'];
             var messageObject = value['messages'];
+
+            console.log(messageObject);
     
     
             if(typeof messageObject != 'undefined'){
