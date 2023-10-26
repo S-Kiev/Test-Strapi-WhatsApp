@@ -43,6 +43,7 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     },
     async recivedMessage (ctx) {
         try {
+            console.log(ctx.body)
             var entry = (ctx.body['entry'])[0];
             var changes = (entry['changes'])[0];
             var value = changes['value'];
