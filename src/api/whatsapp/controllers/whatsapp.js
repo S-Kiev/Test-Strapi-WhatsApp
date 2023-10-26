@@ -28,9 +28,6 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
                 ctx.body = challenge;
             } else {
                 ctx.status = 400;
-                ctx.body = {
-                    message : 'Son las variables'
-                }
             }
         } catch (error) {
             ctx.status = 400;
