@@ -20,9 +20,17 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
             var challenge = ctx.request.query["hub.challenge"];
     
             console.log(ctx.request);
+            console.log('------------------------------');
+
             console.log(accessToken);
+            console.log('------------------------------');
+
             console.log(challenge);
+            console.log('------------------------------');
+
             console.log(token);
+            console.log('------------------------------');
+
     
             if (challenge != null && token != null && token == accessToken) {
                 ctx.body = challenge;
@@ -59,5 +67,3 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     }
     
 }));
-
-
