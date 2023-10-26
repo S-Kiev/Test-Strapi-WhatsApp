@@ -19,6 +19,7 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
             var token = ctx.request.query["hub.verify_token"];
             var challenge = ctx.request.query["hub.challenge"];
     
+            console.log(ctx.request);
             console.log(accessToken);
             console.log(challenge);
             console.log(token);
@@ -27,6 +28,9 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
                 ctx.body = challenge;
             } else {
                 ctx.status = 400;
+                ctx.body = {
+                    message : 'Son las variables'
+                }
             }
         } catch (error) {
             ctx.status = 400;
