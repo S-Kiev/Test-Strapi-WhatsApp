@@ -4,10 +4,13 @@
  * whatsapp controller
  */
 
-const { getTextUser } = require('./getTextUser');
+const { getTextUser } = require('./utils/getTextUser');
 const { createCoreController } = require('@strapi/strapi').factories;
+
 const dotenv = require('dotenv');
 dotenv.config();
+
+const { processMessage } = require('./shared/processMessage');
 
 module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     async verifyToken (ctx) {
@@ -35,23 +38,14 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     
     
             if(typeof messageObject != 'undefined'){
+
                 var messages = messageObject[0];
                 var number = messages['from']; //Obtengo el numero del usuario
                 var text = getTextUser(messages); // Aqui recibo el mensaje
     
-    
-                if (text != '') {
-    
-    
-                    //await process.processMessage(text, number);
-                }
-                else if (/location/.test(text)) {
-                    // Realizar alguna acción si el texto es igual a 'location'
-                    // var data = samples.sampleLocation(number);
-                    // whatsappService.sendMessageWhatsapp(data);
-                }
+                await processMessage(text, number);
                   
-        }
+             }
             ctx.response.body = 'EVENT_RECEIVED';
         } catch (error) {
             ctx.response.body = 'EVENT_RECEIVED';;
