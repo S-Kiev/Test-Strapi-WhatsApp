@@ -60,8 +60,11 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
                 await processMessage(text, number);
                   
              }
+
+             console.log('Bien');
             ctx.response.body = 'EVENT_RECEIVED';
         } catch (error) {
+            console.log('Mal');
             ctx.response.body = 'EVENT_RECEIVED';;
         }
     }
