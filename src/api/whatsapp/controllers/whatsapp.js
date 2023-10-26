@@ -19,6 +19,9 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
             var token = ctx.request.query["hub.verify_token"];
             var challenge = ctx.request.query["hub.challenge"];
     
+            console.log(accessToken);
+            console.log(challenge);
+            console.log(token);
     
             if (challenge != null && token != null && token == accessToken) {
                 ctx.body = challenge;
