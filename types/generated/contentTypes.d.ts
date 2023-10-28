@@ -660,6 +660,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    info_users: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::info-user.info-user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -702,6 +707,49 @@ export interface ApiAlumnoAlumno extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::alumno.alumno',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInfoUserInfoUser extends Schema.CollectionType {
+  collectionName: 'info_users';
+  info: {
+    singularName: 'info-user';
+    pluralName: 'info-users';
+    displayName: 'infoUser';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    code: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 6;
+        maxLength: 6;
+      }>;
+    validSince: Attribute.DateTime;
+    validUntil: Attribute.DateTime;
+    users_permissions_user: Attribute.Relation<
+      'api::info-user.info-user',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::info-user.info-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::info-user.info-user',
       'oneToOne',
       'admin::user'
     > &
@@ -862,6 +910,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::alumno.alumno': ApiAlumnoAlumno;
+      'api::info-user.info-user': ApiInfoUserInfoUser;
       'api::producto.producto': ApiProductoProducto;
       'api::prueba.prueba': ApiPruebaPrueba;
       'api::venta.venta': ApiVentaVenta;

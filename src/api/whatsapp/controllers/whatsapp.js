@@ -42,7 +42,6 @@ module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
         }
     },
     async recivedMessage (ctx) {
-        console.log(ctx.body)
         try {
 
             var entry = (ctx.body['entry'])[0];

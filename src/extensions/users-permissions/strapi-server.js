@@ -1,6 +1,4 @@
-let ultimateCode = '';
-let validate = 0;
-let user;
+
 
 
 const bcrypt = require('bcrypt');
@@ -32,6 +30,9 @@ module.exports = (plugin) => {
                     //validate = new Date().getTime() + 60 * 60 * 1000;
     
                     //Aqui enviar el codigo por Whatsapp
+
+
+
                     ctx.response.status = 200;
                     ctx.response.body = {
                         message: `Operacion ejecutada correctamente`,
