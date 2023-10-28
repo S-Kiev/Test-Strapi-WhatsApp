@@ -14,6 +14,7 @@ const { processMessage } = require('./shared/processMessage');
 
 module.exports = createCoreController('api::whatsapp.whatsapp', ({strapi}) => ({
     async verifyToken (ctx) {
+        console.log(ctx.body)
         try {
             var accessToken = "SaludEsteticaNatural";
             //process.env.WHATSAPP_WEBHOOK_KEY;
